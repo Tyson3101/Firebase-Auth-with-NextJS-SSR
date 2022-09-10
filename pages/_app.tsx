@@ -1,6 +1,12 @@
+import { AuthProvider } from "../contexts/AuthContext";
+
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }) {
-  return <Component {...pageProps} />;
+  return (
+    <AuthProvider>
+      <Component {...pageProps} />
+    </AuthProvider>
+  );
 }
