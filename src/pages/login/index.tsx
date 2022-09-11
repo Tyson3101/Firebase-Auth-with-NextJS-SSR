@@ -1,11 +1,13 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FormEvent, useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../libs/AuthContext";
 
 function logIn() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const { login } = useAuth();
 
   async function submitForm(e: FormEvent) {
@@ -16,6 +18,11 @@ function logIn() {
       router.push("/");
     } catch (e) {
       console.log(e);
+      if (e.message.includes("auth/invalid-email")) setError("Invaild Email");
+      else if (e.message.includes("auth/wrong-password"))
+        setError("Invaild Password");
+      else if (e.message.includes("auth/user-not-found"))
+        setError("No user found!");
     }
   }
 
@@ -23,6 +30,7 @@ function logIn() {
     <>
       <div>
         <h1>Log In</h1>
+        <h3>{error}</h3>
         <div>
           <label htmlFor="email">Email: </label>
           <input
@@ -47,10 +55,10 @@ function logIn() {
           </button>
         </div>
         <button>
-          <a href="/signup">Sign Up</a>
+          <Link href={"/signup"}>Signup</Link>
         </button>
         <button>
-          <a href="/">Home page!</a>
+          <Link href={"/"}>Homepage</Link>
         </button>
       </div>
     </>

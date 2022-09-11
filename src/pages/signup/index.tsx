@@ -1,12 +1,13 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FormEvent, useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../libs/AuthContext";
 
 function signUp() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [error, setError] = useState("");
   const { signup } = useAuth();
 
   async function submitForm(e: FormEvent) {
@@ -14,16 +15,23 @@ function signUp() {
     console.log("running");
     try {
       await signup(email, password);
-      router.push("/login");
+      router.push("/");
     } catch (e) {
-      console.log(e);
+      console.log(e, e.message);
+      if (e.message.includes("auth/invalid-email")) setError("Invaild Email");
+      else if (e.message.includes("auth/weak-password"))
+        setError("Weak Password! Aim for 6 characters");
+      else if (e.message.includes("auth/internal-error"))
+        setError("Internal Server Error! Try again.");
+      else if (e.message.includes("auth/email-already-in-use"))
+        setError("Email already in use");
     }
   }
-
   return (
     <>
       <div>
         <h1>Sign Up</h1>
+        <h3>{error}</h3>
         <div>
           <label htmlFor="email">Email: </label>
           <input
@@ -48,10 +56,10 @@ function signUp() {
           </button>{" "}
         </div>
         <button>
-          <a href="/login">Log In</a>
+          <Link href={"/login"}>Log In</Link>
         </button>
         <button>
-          <a href="/">Home page!</a>
+          <Link href={"/"}>Homepage</Link>
         </button>
       </div>
     </>

@@ -1,22 +1,34 @@
 import React, { useContext, useEffect, useState } from "react";
-import { auth } from "../libs/firebaseClient";
+import { auth } from "./firebaseClient";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  User,
+  UserCredential,
 } from "firebase/auth";
 import nookies from "nookies";
 
-const AuthContext = React.createContext(null);
+interface AuthContextValue {
+  currentUser: User;
+  loading: boolean;
+  signup: (email: string, password: string) => Promise<UserCredential>;
+  login: (email: string, password: string) => Promise<UserCredential>;
+  logout: () => Promise<void>;
+}
+
+const AuthContext = React.createContext<AuthContextValue | null>(null);
 
 export function useAuth() {
   return useContext(AuthContext);
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(null!);
+  const [currentUser, setCurrentUser] = useState(null! as User);
+  const [loading, setLoading] = useState(true);
   const value = {
     currentUser,
+    loading,
     signup,
     login,
     logout,
@@ -27,13 +39,14 @@ export function AuthProvider({ children }) {
   function login(email: string, password: string) {
     return signInWithEmailAndPassword(auth, email, password);
   }
-  function logout(email: string, password: string) {
+  function logout() {
     return signOut(auth);
   }
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
+      setLoading(false);
     });
     return unsubscribe;
   }, []);
@@ -54,8 +67,6 @@ export function AuthProvider({ children }) {
       const user = auth.currentUser;
       if (user) await user.getIdToken(true);
     }, 10 * 60 * 1000);
-
-    // clean up setInterval
     return () => clearInterval(handle);
   }, []);
 
