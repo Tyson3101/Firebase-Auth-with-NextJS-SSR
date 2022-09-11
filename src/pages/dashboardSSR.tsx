@@ -4,12 +4,14 @@ import { auth } from "../libs/firebaseAdmin";
 import nookies from "nookies";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useEffect } from "react";
 
-export default function Dashboard(message) {
+export default function DashboardSSR({ message }: { message: string }) {
   const router = useRouter();
   const { currentUser, logout, loading } = useAuth();
-
-  console.log(message);
+  useEffect(() => {
+    console.log(message);
+  }, []);
   if (loading) return <div>Loading...</div>;
   async function logoutFunc() {
     console.log("Log Out!");
@@ -56,7 +58,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     const { uid, email } = token;
     // Can fetch stuff
     return {
-      props: {},
+      props: { message: { uid, email } },
     };
   } catch (err) {
     return { redirect: { destination: "/login" } };

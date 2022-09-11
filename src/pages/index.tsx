@@ -18,7 +18,7 @@ function Home() {
           <Link href={"/dashboard"}>Dashboard</Link>
         </li>
         <li>
-          <Link href={"/dashboard"}>Dashboard (SSR)</Link>
+          <Link href={"/dashboardSSR"}>Dashboard (SSR)</Link>
         </li>
       </ul>
       {currentUser ? (

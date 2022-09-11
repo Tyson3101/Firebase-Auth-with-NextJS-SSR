@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import { useAuth } from "../libs/AuthContext";
 import Link from "next/link";
 
-function Test() {
+function Dashboard() {
   const router = useRouter();
   const { currentUser, loading, logout } = useAuth();
   if (loading) return <div>Loading...</div>;
-  if (!currentUser) {
+  if (!currentUser || !currentUser.uid) {
     return router.push("/login");
   }
   async function logoutFunc() {
@@ -23,8 +23,8 @@ function Test() {
     <>
       <div>
         <h1>USER AUTH</h1>
-        <h2>Hey {currentUser?.email}</h2>
-        <p>I found your UID! {currentUser?.uid}</p>
+        <h2>Hey {currentUser.email}</h2>
+        <p>I found your UID! {currentUser.uid}</p>
       </div>
       <button onClick={() => logoutFunc()}>
         {currentUser ? "Log Out" : "Sign In"}
@@ -47,4 +47,4 @@ function Test() {
   );
 }
 
-export default Test;
+export default Dashboard;
