@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Guides used:
+- [Web Dev Simplified React + Firebase Video](https://www.youtube.com/watch?v=PKwu15ldZ7k)
+- [Firebase Authentication and Middleare API Blog]https://dev.to/dingran/next-js-firebase-authentication-and-middleware-for-api-routes-29m1)
+
 ## Getting Started
 
 First, run the development server:
