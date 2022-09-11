@@ -62,6 +62,17 @@ function signUp() {
           <Link href={"/"}>Homepage</Link>
         </button>
       </div>
+      <span style={{ display: "block" }}>
+        Code:{" "}
+        <a
+          target={"_blank"}
+          href={
+            "https://github.com/Tyson3101/Firebase-Auth-with-NextJS-SSR/blob/main/src/pages/signup/index.tsx"
+          }
+        >
+          Github
+        </a>
+      </span>
     </>
   );
 }

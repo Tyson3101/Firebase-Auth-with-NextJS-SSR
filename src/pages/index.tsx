@@ -26,6 +26,17 @@ function Home() {
       ) : (
         ""
       )}
+      <span style={{ display: "block" }}>
+        Code:{" "}
+        <a
+          target={"_blank"}
+          href={
+            "https://github.com/Tyson3101/Firebase-Auth-with-NextJS-SSR/blob/main/src/pages/index.tsx"
+          }
+        >
+          Github
+        </a>
+      </span>
     </>
   );
 }
